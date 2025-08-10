@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCTC English Grammar Quiz</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f8fb;
+        color: #333;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #003366;
+        padding: 10px;
+        color: white;
+    }
+    img.logo {
+        width: 100px;
+        height: auto;
+        margin-top: 10px;
+    }
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .hidden {
+        display: none;
+    }
+    .feedback {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>BCTC English Grammar Quiz</h1>
+    <p>Created by Abhijit Chakraborty</p>
+    <img class="logo" src="data:image/png;base64,
+    iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAAMFBMVEX///8AAAB7e3tzc3NwcHCHh4f8/Pxubm6np6e1tbXn5+f19fXc3NwZGRmYmJiysrJ/f3/p4Jw9AAABPklEQVR4nO3dS47CMAwF0AXJZ1P//zWJkELCVSmTE8Hn67ZV9f1o8blapVJJJJJJJJJJJJJJJJJJJJJJJJJJJJN5rO4fiUKFhFrpHpDwhiUq0YCUbsIRFq3KQjbk8Dh4Ckp2iNmVFDdH15j9ZAwMNYbUdnfHesQeOkk9t+Wn3UkfB6VPGaCKt4m7ZnQlj51TjVum08e0VQPa8LMPVrfU1J0HVXeYnSENjFzXFSjFBL7ozXzu0VJGd6ihH8lym2bQ+GgZ9TzGnvZ2B7vzt8wzI3nZzrq69a/W5P4LPoCeDEcLBcLBcLBcLBcLBcLBcLBcLBcLBcLBcLBcLBcLBcLBcLBcLBcLBcLBcLBfLB9cX7E2qfVYlkkkkiRJkiRJkiRJkiRJkiRJkiRJkiRJkqS/JNoEqfVa4acAAAAASUVORK5CYII=" alt="BCTC Logo">
+</header>
+
+<div class="container" id="startScreen">
+    <h2>Welcome to the BCTC Quiz</h2>
+    <p>Please enter your details to begin:</p>
+    <input type="text" id="firstName" placeholder="First Name"><br><br>
+    <input type="text" id="lastName" placeholder="Surname"><br><br>
+    <button onclick="startQuiz()">Start Quiz</button>
+</div>
+
+<div class="container hidden" id="quizScreen">
+    <h3 id="questionText"></h3>
+    <div id="options"></div>
+    <p class="feedback" id="feedback"></p>
+    <button onclick="nextQuestion()" id="nextBtn" class="hidden">Next</button>
+</div>
+
+<div class="container hidden" id="endScreen">
+    <h2 id="finalMessage"></h2>
+    <p id="scoreDisplay"></p>
+</div>
+
+<script>
+const questions = [
+    {q:"Which sentence is correct?", options:["He go to school.","He goes to school.","He going to school.","He gone to school."], answer:1, explanation:"সঠিক উত্তর 'He goes to school.' কারণ ৩য় পুরুষ একবচনের ক্ষেত্রে present simple tense এ ক্রিয়ার সাথে -s যোগ হয়।"},
+    {q:"Identify the past tense of 'run'.", options:["Runned","Ran","Running","Runs"], answer:1, explanation:"'Run' এর past tense হলো 'ran'।"},
+    {q:"Choose the correct passive voice: 'They eat mangoes.'", options:["Mangoes eaten by them.","Mangoes are eaten by them.","Mangoes is eaten by them.","Mangoes are eat by them."], answer:1, explanation:"Passive voice এ 'are eaten' সঠিক, কারণ subject plural।"},
+    {q:"Select the correct question form: 'You are happy.'", options:["Are you happy?","You happy are?","Happy are you?","You are happy?"], answer:0, explanation:"'Are you happy?' সঠিক, কারণ be verb প্রশ্নে subject এর আগে আসে।"},
+    {q:"Choose the right form: 'She ____ already finished her work.'", options:["have","has","having","had"], answer:1, explanation:"৩য় পুরুষ একবচনের present perfect এ 'has' ব্যবহৃত হয়।"},
+    {q:"Find the error: 'He don't like tea.'", options:["He","don't","like","tea"], answer:1, explanation:"৩য় পুরুষ একবচনের ক্ষেত্রে 'doesn't' ব্যবহৃত হয়।"},
+    {q:"Correct comparative: 'This book is ____ than that one.'", options:["good","gooder","better","best"], answer:2, explanation:"'Better' comparative form, কারণ 'good' এর irregular form।"},
+    {q:"Which is correct?", options:["She can sings.","She cans sing.","She can sing.","She can sang."], answer:2, explanation:"Modal verb এর পরে ক্রিয়া base form এ থাকে।"},
+    {q:"Past continuous: 'They ____ playing football.'", options:["was","were","are","is"], answer:1, explanation:"Plural subject এর সাথে past continuous এ 'were' ব্যবহৃত হয়।"},
+    {q:"Choose correct tag: 'You are a student, ____?'", options:["aren't you","are you","do you","don't you"], answer:0, explanation:"Positive বাক্যে negative question tag ব্যবহৃত হয়।"},
+    {q:"Fill in: 'I have lived here ____ 2010.'", options:["for","since","from","at"], answer:1, explanation:"'Since' শুরু সময় বোঝাতে ব্যবহৃত হয়।"},
+    {q:"Which is correct?", options:["He drive very fast.","He drives very fast.","He driving very fast.","He driven very fast."], answer:1, explanation:"৩য় পুরুষ একবচনের present simple এ 'drives' হয়।"},
+    {q:"Choose past perfect: 'She ____ finished before I arrived.'", options:["had","has","have","having"], answer:0, explanation:"Past perfect এ 'had' ব্যবহৃত হয়।"},
+    {q:"Identify the correct sentence.", options:["I am knowing him.","I know him.","I knows him.","I knowing him."], answer:1, explanation:"'Know' stative verb, continuous এ হয় না।"},
+    {q:"Choose correct: 'If I ____ you, I would study more.'", options:["was","were","am","be"], answer:1, explanation:"Subjunctive mood এ 'were' ব্যবহৃত হয়।"},
+    {q:"Choose correct: 'The news ____ good.'", options:["are","is","were","be"], answer:1, explanation:"'News' singular হিসেবে বিবেচিত হয়।"},
+    {q:"Right form: 'He is good ____ math.'", options:["in","at","on","for"], answer:1, explanation:"'Good at' একটি fixed expression।"},
+    {q:"Choose the right preposition: 'He is interested ____ music.'", options:["in","on","at","for"], answer:0, explanation:"'Interested in' সঠিক combination।"},
+    {q:"Select correct future: 'I ____ help you tomorrow.'", options:["will","shall","would","can"], answer:0, explanation:"Future simple এ 'will' সঠিক।"},
+    {q:"Choose correct order: 'She quickly finished the work.'", options:["Adverb before verb","Verb before adverb","Adverb at end always","None"], answer:0, explanation:"Adverb (quickly) ক্রিয়ার আগে এসেছে, যা সঠিক।"}
+];
+
+let currentQuestion = 0;
+let score = 0;
+let studentName = "";
+
+function startQuiz(){
+    const first = document.getElementById("firstName").value.trim();
+    const last = document.getElementById("lastName").value.trim();
+    if(!first || !last){
+        alert("Please enter both first name and surname.");
+        return;
+    }
+    studentName = first + " " + last;
+    document.getElementById("startScreen").classList.add("hidden");
+    document.getElementById("quizScreen").classList.remove("hidden");
+    showQuestion();
+}
+
+function showQuestion(){
+    const q = questions[currentQuestion];
+    document.getElementById("questionText").textContent = q.q;
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+    q.options.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(index);
+        optionsDiv.appendChild(btn);
+    });
+    document.getElementById("feedback").textContent = "";
+    document.getElementById("nextBtn").classList.add("hidden");
+}
+
+function checkAnswer(selected){
+    const q = questions[currentQuestion];
+    if(selected === q.answer){
+        score++;
+        document.getElementById("feedback").textContent = "✅ Correct!";
+        document.getElementById("feedback").style.color = "green";
+    } else {
+        document.getElementById("feedback").textContent = "❌ Wrong! " + q.explanation;
+        document.getElementById("feedback").style.color = "red";
+    }
+    document.querySelectorAll("#options button").forEach(btn => btn.disabled = true);
+    document.getElementById("nextBtn").classList.remove("hidden");
+}
+
+function nextQuestion(){
+    currentQuestion++;
+    if(currentQuestion < questions.length){
+        showQuestion();
+    } else {
+        endQuiz();
+    }
+}
+
+function endQuiz(){
+    document.getElementById("quizScreen").classList.add("hidden");
+    document.getElementById("endScreen").classList.remove("hidden");
+    let feedback = "";
+    if(score >= 17) feedback = "Excellent 🎉";
+    else if(score >= 12) feedback = "Good 🙂";
+    else feedback = "Needs Practice 📚";
+    document.getElementById("finalMessage").textContent = "Well done, " + studentName + "!";
+    document.getElementById("scoreDisplay").textContent = `Your Score: ${score} / ${questions.length} — ${feedback}`;
+}
+</script>
+
+</body>
+</html>
+
